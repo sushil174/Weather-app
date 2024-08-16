@@ -91,10 +91,10 @@ const dom = (() => {
     unit.addEventListener('click', () => {
         if(unit.value === 'metric') {
             unit.value = 'us';
-            unit.textContent = "Celcius";
+            unit.textContent = "Fahrenheit";
         }else {
             unit.value = 'metric';
-            unit.textContent = "Fahrenheit";
+            unit.textContent = "Celcius";
         }
         getData((cityName || 'mumbai'),unit.value).then((response) => {
             display(response)
