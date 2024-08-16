@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
 	mode: 'development',
 	entry: './src/index.js',
@@ -9,6 +9,12 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Output Management',
             template: path.resolve(__dirname, './src/index.html'),
+		}),
+
+		new CopyWebpackPlugin({
+			patterns: [
+				{from: 'src/svg' ,to: 'svg'}
+			],
 		}),
 	],
 
@@ -44,6 +50,15 @@ module.exports = {
 				test: /\.xml$/i,
 				use: ['xml-loader'],
 			},
+
+			{
+				test: /\.svg$/i,
+				use: [
+					{
+						loader: 'file-loader',
+					}
+				]
+			}
 		],
 	},
 };
