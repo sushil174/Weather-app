@@ -50,7 +50,11 @@ button {
     padding: 0;
     font-size: 5rem;
 }
-
+.logo { 
+    width: 500px;
+    max-height: 13em;
+    aspect-ratio: 2 / 3;
+}
 .sidebar img {
     height: 6em;
 }
@@ -135,4 +139,7 @@ button {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 80%;
+    height: 10%;
+    aspect-ratio: 4/2;
 }
