@@ -83,9 +83,11 @@ const dom = (() => {
     let cityName = ''
     search.addEventListener('click', () => {
         cityName = input.value;
-        getData(cityName,unit.value).then((response) => {
-            display(response)
-        })
+        if(cityName) {
+            getData(cityName,unit.value).then((response) => {
+                display(response)
+            })
+        }
     })
 
     unit.addEventListener('click', () => {
