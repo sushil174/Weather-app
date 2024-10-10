@@ -6,6 +6,13 @@ async function getData(search="mumbai",unit="us") {
     try{
         const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search}?unitGroup=${unit}&key=ETAVPF9X344S8DHNWY4RFWJKC&contentType=json`
         const response = await fetch(url);
+
+        if(response.status===400) {
+            throw new Error(`${search} does not exist perhaps spelling mistake.`)
+        }
+        else if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
         const jsonData = await response.json();
         const data =  { 
                 "address" : jsonData.resolvedAddress, 
@@ -19,9 +26,8 @@ async function getData(search="mumbai",unit="us") {
             "address" : data.address,
             "days" : result
         }
-    }
-    catch(err) {
-        return err
+    }catch(err) {
+        throw err
     }
 }
 
@@ -34,11 +40,16 @@ const dom = (() => {
     const city = document.querySelector('.city');
     const cards = document.querySelector('.cards');
     const degreeSymbol = '\u00B0'
-    function display(res) {
+    function display(res,check) {
         logo.textContent = ''
         date.textContent = ''
         city.textContent = ''
         cards.textContent = ''
+        if(check) {
+            city.textContent = res.message;
+            return;
+
+        }
         const logoImg = document.createElement('img');
         const logoP = document.createElement('p');
         logoP.textContent = res.days[0][2].icon;
@@ -87,6 +98,9 @@ const dom = (() => {
             getData(cityName,unit.value).then((response) => {
                 display(response)
             })
+            .catch(err => {
+                dom.display(err, true)
+            })
         }
     })
 
@@ -109,6 +123,8 @@ const dom = (() => {
 
 const unit = document.querySelector('#change-unit') ;
 getData('mumbai',unit.value).then((response) => {
-    dom.display(response)
+    dom.display(response,false)
 })
-
+.catch(err => {
+    dom.display(err, true)
+})
