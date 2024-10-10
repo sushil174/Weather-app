@@ -3,6 +3,14 @@ import './style.css';
 import { format,parseISO } from 'date-fns';
 
 async function getData(search="mumbai",unit="us") {
+    const logo = document.querySelector('.logo');
+    const date = document.querySelector('.date');
+    const city = document.querySelector('.city');
+    const cards = document.querySelector('.cards');
+    logo.textContent = "loading..."
+    date.textContent = "loading..."
+    city.textContent = ""
+    cards.textContent = "loading..."
     try{
         const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search}?unitGroup=${unit}&key=ETAVPF9X344S8DHNWY4RFWJKC&contentType=json`
         const response = await fetch(url);
@@ -28,6 +36,11 @@ async function getData(search="mumbai",unit="us") {
         }
     }catch(err) {
         throw err
+    }
+    finally {
+        logo.textContent = ""
+        date.textContent = ""
+        cards.textContent = ""
     }
 }
 
